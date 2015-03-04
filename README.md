@@ -3,5 +3,5 @@ WPF natively supports drag and drop operations - that is, you the developer get 
 
 This project provides drag and drop gesture support with a ghosted preview to WPF using MVVM style architecture.
 
-For a full description on this project, please <a href="http://www.codeproject.com/Articles/874425/Drag-and-Drop-in-MVVM-WPF" target="_blank">read the full article</a>.
+For a full description on this project, please <a href="http://www.codeproject.com/Articles/874425/Drag-and-Drop-in-MVVM-WPF" target="_blank">see the full article</a>.
 
