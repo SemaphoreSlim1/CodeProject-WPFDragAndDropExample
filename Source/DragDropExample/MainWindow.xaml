@@ -1,0 +1,79 @@
+﻿<Window x:Class="DragDropExample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:dd="clr-namespace:DragDrop;assembly=DragDrop"      
+        xmlns:controls="clr-namespace:DragDropExample"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <ResourceDictionary>
+            <controls:DragPreview x:Key="DragPreviewControl" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Canvas ZIndex="5" x:Name="OverlayCanvas" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="0.5*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Content="First Name:" Grid.Row="0" Grid.Column="0" />
+                    <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+
+                    <Label Content="Last Name:" Grid.Row="1" Grid.Column="0" />
+                    <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
+
+                    <Label Content="Email Address:" Grid.Row="2" Grid.Column="0" />
+                    <TextBox Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" />
+                </Grid>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="0 10 0 0"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.DropTarget="{Binding ElementName=dropPanel}"
+                    dd:DragDrop.DragDropPreviewControl="{StaticResource DragPreviewControl}"
+                    dd:DragDrop.DragDropPreviewControlDataContext="{Binding Source={StaticResource Locator},Path=DragPreview}"
+                    dd:DragDrop.DragDropContainer="{Binding ElementName=OverlayCanvas}"
+                    dd:DragDrop.ItemDropped="{Binding AddUser}"
+                    >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Height="100" Width="103" Margin="10" Background="DarkGray">
+                    <Label Margin="0 35 0 0" Content="Picture goes here" />
+                        </TextBlock>
+                        <StackPanel>
+                            <WrapPanel HorizontalAlignment="Stretch" Margin="0 10 0 0">
+                                <Label Content="{Binding FirstName, FallbackValue='First Name'}" />
+                                <Label Content="{Binding LastName, FallbackValue='Last Name'}" />
+                            </WrapPanel>
+                            <Label Content="{Binding EmailAddress, FallbackValue='Email Address'}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <GridSplitter Grid.Column="1" Background="Gray" HorizontalAlignment="Stretch" Margin="5" />
+            <StackPanel Grid.Column="2" Name="dropPanel">
+                <ItemsControl ItemsSource="{Binding Users}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding LastName}" />
+                                <Label Content="," />
+                                <Label Content="{Binding FirstName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

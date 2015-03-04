@@ -1,0 +1,62 @@
+﻿<dd:DragDropPreviewBase x:Class="DragDropExample.DragPreview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dd="clr-namespace:DragDrop;assembly=DragDrop"
+             mc:Ignorable="d"             
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform ScaleX="1" ScaleY="1"/>
+            <SkewTransform AngleX="0" AngleY="0"/>
+            <RotateTransform Angle="0"/>
+            <TranslateTransform X="0" Y="0"/>
+        </TransformGroup>
+    </UserControl.RenderTransform>
+    <UserControl.Resources>
+<Storyboard x:Key="canDropChanged" FillBehavior="HoldEnd">            
+    <ColorAnimation To="Green" Storyboard.TargetName="horizontalBar" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" BeginTime="00:00:00" Duration="00:00:00.3" />
+    <ColorAnimation To="Green" Storyboard.TargetName="verticalBar" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" BeginTime="00:00:00" Duration="00:00:00.3" />
+            
+    <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.25" AccelerationRatio=".1" DecelerationRatio=".9" To="1" Storyboard.TargetName="verticalBar" Storyboard.TargetProperty="(Rectangle.Opacity)" />
+</Storyboard>
+<Storyboard x:Key="cannotDropChanged" FillBehavior="HoldEnd">
+    <ColorAnimation To="Red" Storyboard.TargetName="horizontalBar" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" BeginTime="00:00:00" Duration="00:00:00.3" />
+    <ColorAnimation To="Red" Storyboard.TargetName="verticalBar" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" BeginTime="00:00:00" Duration="00:00:00.3" />
+    <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.25" AccelerationRatio=".1" DecelerationRatio=".9" To="0" Storyboard.TargetName="verticalBar" Storyboard.TargetProperty="(Rectangle.Opacity)" />
+</Storyboard>
+        <Storyboard x:Key="loadAni">
+            <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.25" AccelerationRatio=".1" DecelerationRatio=".9" From="0" To="0.25" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"/>
+            <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.25" AccelerationRatio=".1" DecelerationRatio=".9" From="0" To="0.25" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" />
+            <DoubleAnimation BeginTime="00:00:00" Duration="00:00:00.25" AccelerationRatio=".1" DecelerationRatio=".9" From="0" To="0.8" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)" />
+        </Storyboard>
+        
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource loadAni}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
+<Grid Name="grid">
+    <Grid.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform ScaleX="1" ScaleY="1"/>
+            <SkewTransform AngleX="0" AngleY="0"/>
+            <RotateTransform Angle="0"/>
+            <TranslateTransform X="0" Y="0"/>
+        </TransformGroup>
+    </Grid.RenderTransform>
+    <Image Name="imgIndicator" Source="user-icon.png" />
+    <Rectangle Name="horizontalBar" Height="50" Width="150" Margin="140,191,10,59">
+        <Rectangle.Fill>
+            <SolidColorBrush Color="Green" />
+        </Rectangle.Fill>
+    </Rectangle>
+    <Rectangle Name="verticalBar" Height="150" Width="50" Margin="190,140,60,10">
+        <Rectangle.Fill>
+            <SolidColorBrush Color="Green" />
+        </Rectangle.Fill>
+    </Rectangle>
+</Grid>
+</dd:DragDropPreviewBase>
